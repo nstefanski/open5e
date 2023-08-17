@@ -289,6 +289,9 @@ export const useMainStore = defineStore({
     allEquipmentSections: (state) => {
       return state.sections.filter((section) => section.parent === 'Equipment');
     },
+    allAppendixSections: (state) => {
+      return state.sections.filter((section) => section.parent === 'Appendix');
+    },
     allBackgrounds: (state) => {
       return state.backgrounds;
     },
