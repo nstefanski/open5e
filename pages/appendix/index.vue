@@ -2,8 +2,9 @@
   <section class="docs-container container">
     <h1>Appendix</h1>
     <div class="docs-toc">
-      <ul v-if="appendixSections">
-        <li v-for="section in appendixSections" :key="section.slug">
+      <span v-if="$route.hash">{{ $route.hash }}</span>
+      <ul>
+        <li v-for="section in sectionGroups.Appendix" :key="section.slug">
           <nuxt-link tag="a" :to="`/appendix/${section.slug}`">
             {{ section.name }}
           </nuxt-link>
@@ -16,14 +17,24 @@
 <script>
 import { useMainStore } from '~/store';
 
+Array.prototype.groupBy = function (prop) {
+  return this.reduce(function (groups, item) {
+    const val = item[prop];
+    groups[val] = groups[val] || [];
+    groups[val].push(item);
+    return groups;
+  }, {});
+};
+
 export default {
   setup() {
     const store = useMainStore();
     return { store };
   },
   computed: {
-    appendixSections: function () {
-      return this.store.allAppendixSections;
+    sectionGroups: function () {
+      let groupedSections = this.store.allSections.groupBy('parent');
+      return groupedSections;
     },
   },
 };
