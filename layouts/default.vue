@@ -227,7 +227,7 @@ export default {
           ),
         },
         {
-          title: 'Appendices',
+          title: 'Appendix',
           route: '/appendix',
           subroutes: this.store.sections.filter(
             (page) => page.parent === 'Appendix'
