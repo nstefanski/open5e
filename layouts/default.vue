@@ -227,6 +227,13 @@ export default {
           ),
         },
         {
+          title: 'Appendices',
+          route: '/appendix',
+          subroutes: this.store.sections.filter(
+            (page) => page.parent === 'Appendix'
+          ),
+        },
+        {
           title: 'API Docs',
           route: '/api-docs',
         },
