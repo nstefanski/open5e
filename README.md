@@ -42,3 +42,64 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+
+## Nick's Notes
+
+After tinkering with this for a bit, I wanted to record my detailed notes to recreate on Digital Ocean using a standard Ubuntu droplet:
+
+```
+ssh root@[IP_ADDRESS]
+
+# update droplet
+sudo apt update && sudo apt upgrade -y
+
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# install git and fetch repo
+sudo apt install git -y
+
+cd /var
+
+mkdir www
+cd www
+
+git clone https://github.com/nstefanski/open5e.git
+
+cd open5e
+
+git fetch origin nstefanski-appendix2
+git checkout nstefanski-appendix2
+
+# install node.js
+npm install
+
+# set api url
+nano .env
+
+API_URL = 'https://[custum_url].up.railway.app'  # point to test api on railway app
+
+# set nuxt start script
+nano package.json
+
+"scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",  # this command was missing
+    ...
+}
+
+# open firewall port
+sudo apt install ufw
+sudo ufw allow ssh
+sudo ufw enable
+sudo ufw allow 3000/tcp
+sudo ufw status
+
+# run node
+# redo after changes
+npm run build
+npm start
+
+# if viewing on the web, make sure to navigate to port 3000, i.e. http://192.168.0.0:3000
+```
